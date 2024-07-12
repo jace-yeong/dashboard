@@ -77,7 +77,7 @@ def get_coordinates(postal_code, api_token):
     return None, None
 
 # Directory containing Excel files
-excel_files_dir = 'D:\myWorks\Python\Full Dashboard Test'  # Relative path to the directory containing Excel files
+excel_files_dir = 'data'  # Relative path to the directory containing Excel files
 
 # List all Excel files in the directory
 excel_files = [f for f in os.listdir(excel_files_dir) if f.endswith('.xlsx')]
