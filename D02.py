@@ -108,7 +108,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Path to the directory containing Excel files
-excel_files_dir = 'D:\myWorks\Python\Full Dashboard Test'  # Replace with the actual path to your Excel files
+excel_files_dir = 'main'  # Replace with the actual path to your Excel files
 
 # Get a list of all Excel files in the directory
 excel_files = [f for f in os.listdir(excel_files_dir) if f.endswith('.xlsx')]
