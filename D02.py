@@ -55,7 +55,7 @@ def create_folium_map(df, api_token):
     coordinates_df.dropna(subset=['latitude', 'longitude'], inplace=True)
 
     # Create a Folium map centered around Singapore
-    map_singapore = folium.Map(location=[1.3521, 103.8198], zoom_start=12, width='100%', height='800px')
+    map_singapore = folium.Map(location=[1.25, 103.8198], zoom_start=11, width='100%', height='800px')
 
     # Add markers to the Folium map
     for _, row in coordinates_df.iterrows():
@@ -108,7 +108,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Path to the directory containing Excel files
-excel_files_dir = 'main'  # Replace with the actual path to your Excel files
+excel_files_dir = 'data'  # Replace with the actual path to your Excel files
 
 # Get a list of all Excel files in the directory
 excel_files = [f for f in os.listdir(excel_files_dir) if f.endswith('.xlsx')]
