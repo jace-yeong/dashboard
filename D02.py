@@ -158,6 +158,8 @@ if chart_type == "Race Distribution":
 elif chart_type == "Age Distribution":
     fig = px.bar(age_distribution, x='Age Category', y='Count', title="Age Distribution", template="plotly_white")
     st.plotly_chart(fig, use_container_width=True, height=800)
+    fig_dotplot = px.scatter(df, x='Age', title='Age Distribution')
+    st.plotly_chart(fig_dotplot, use_container_width=True)
 elif chart_type == "Postal Code Map":
     map_singapore = create_folium_map(df, API_TOKEN)
     folium_static(map_singapore)
