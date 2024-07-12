@@ -55,7 +55,7 @@ def create_folium_map(df, api_token):
     coordinates_df.dropna(subset=['latitude', 'longitude'], inplace=True)
 
     # Create a Folium map centered around Singapore
-    map_singapore = folium.Map(location=[1.3521, 103.8198], zoom_start=12, width='100%', height='800px')
+    map_singapore = folium.Map(location=[1.25, 103.8198], zoom_start=11, width='100%', height='800px')
 
     # Add markers to the Folium map
     for _, row in coordinates_df.iterrows():
