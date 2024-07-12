@@ -4,17 +4,7 @@ import plotly.express as px
 import folium
 from streamlit_folium import folium_static
 import requests
-
-# Load the Excel data into a pandas DataFrame
-df = pd.read_excel('Ferticlay.xlsx')
-
-# Ensure that age category columns contain only numeric values
-age_categories = ['Child', 'Teenager', 'Youth', 'Adult', 'Elderly']
-df[age_categories] = df[age_categories].apply(pd.to_numeric, errors='coerce').fillna(0).astype(int)
-
-# Calculate the total number of participants in each age category
-age_distribution = df[age_categories].sum().reset_index()
-age_distribution.columns = ['Age Category', 'Count']
+import os
 
 # Function to check if a postal code is valid
 def is_valid_postal_code(postal_code):
@@ -117,6 +107,28 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+# Path to the directory containing Excel files
+excel_files_dir = 'D:\myWorks\Python\Full Dashboard Test'  # Replace with the actual path to your Excel files
+
+# Get a list of all Excel files in the directory
+excel_files = [f for f in os.listdir(excel_files_dir) if f.endswith('.xlsx')]
+
+# Create a sidebar for selecting the event
+st.sidebar.title("Select Event")
+selected_file = st.sidebar.selectbox("Choose an event file", excel_files)
+
+# Load the selected Excel file
+file_path = os.path.join(excel_files_dir, selected_file)
+df = pd.read_excel(file_path)
+
+# Ensure that age category columns contain only numeric values
+age_categories = ['Child', 'Teenager', 'Youth', 'Adult', 'Elderly']
+df[age_categories] = df[age_categories].apply(pd.to_numeric, errors='coerce').fillna(0).astype(int)
+
+# Calculate the total number of participants in each age category
+age_distribution = df[age_categories].sum().reset_index()
+age_distribution.columns = ['Age Category', 'Count']
+
 # Create a sidebar for selecting visualization type
 st.sidebar.title("Dashboard")
 chart_type = st.sidebar.selectbox(
@@ -125,9 +137,9 @@ chart_type = st.sidebar.selectbox(
 )
 
 st.title("Kampung Spirit Dashboard")
-st.markdown("""
+st.markdown(f"""
     <div style="background-color: #e9ecef; padding: 15px; border-radius: 5px;">
-        Explore the data on race distribution, age distribution, and postal codes for the event participants.
+        Explore the data for {selected_file} on race distribution, age distribution, and postal codes for the event participants.
     </div>
 """, unsafe_allow_html=True)
 
