@@ -113,9 +113,15 @@ excel_files_dir = 'D:\myWorks\Python\Full Dashboard Test'  # Replace with the ac
 # Get a list of all Excel files in the directory
 excel_files = [f for f in os.listdir(excel_files_dir) if f.endswith('.xlsx')]
 
+# Create a dictionary to map display names to file names
+excel_files_display = {os.path.splitext(f)[0]: f for f in excel_files}
+
 # Create a sidebar for selecting the event
 st.sidebar.title("Select Event")
-selected_file = st.sidebar.selectbox("Choose an event file", excel_files)
+selected_event_display = st.sidebar.selectbox("Choose an event", list(excel_files_display.keys()))
+
+# Get the corresponding file name
+selected_file = excel_files_display[selected_event_display]
 
 # Load the selected Excel file
 file_path = os.path.join(excel_files_dir, selected_file)
@@ -129,6 +135,9 @@ df[age_categories] = df[age_categories].apply(pd.to_numeric, errors='coerce').fi
 age_distribution = df[age_categories].sum().reset_index()
 age_distribution.columns = ['Age Category', 'Count']
 
+# Determine the correct column name for race
+race_column_name = 'What is your race?' if 'What is your race?' in df.columns else 'Race'
+
 # Create a sidebar for selecting visualization type
 st.sidebar.title("Dashboard")
 chart_type = st.sidebar.selectbox(
@@ -139,12 +148,12 @@ chart_type = st.sidebar.selectbox(
 st.title("Kampung Spirit Dashboard")
 st.markdown(f"""
     <div style="background-color: #e9ecef; padding: 15px; border-radius: 5px;">
-        Explore the data for {selected_file} on race distribution, age distribution, and postal codes for the event participants.
+        Explore the data for {selected_event_display} on race distribution, age distribution, and postal codes for the event participants.
     </div>
 """, unsafe_allow_html=True)
 
 if chart_type == "Race Distribution":
-    fig = px.pie(df, names='Race', title="Race Distribution", template="plotly_white")
+    fig = px.pie(df, names=race_column_name, title="Race Distribution", template="plotly_white")
     st.plotly_chart(fig, use_container_width=True, height=800)
 elif chart_type == "Age Distribution":
     fig = px.bar(age_distribution, x='Age Category', y='Count', title="Age Distribution", template="plotly_white")
